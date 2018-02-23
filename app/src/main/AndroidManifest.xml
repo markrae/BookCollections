@@ -2,6 +2,12 @@
 <manifest package="org.launchcode.g7.bookcollections"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+   <!-- <uses-sdk
+        android:minSdkVersion="17"
+        android:targetSdkVersion="26">
+    </uses-sdk>
+    This is no longer used and is always overridden by the Gradle Build Scripts (build.gradle-->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
