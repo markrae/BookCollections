@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity
                 // TODO add new book context behavior
                 // if inside collections,
                 // open new book dialog
+
             }
         });
     }
