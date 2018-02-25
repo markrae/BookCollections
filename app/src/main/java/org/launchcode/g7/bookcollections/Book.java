@@ -11,11 +11,11 @@ public class Book
     @PrimaryKey
     private int uid;
 
-    @ColumnInfo(name = "first_name")
-    private String firstName;
+    @ColumnInfo(name = "title")
+    private String title;
 
-    @ColumnInfo(name = "last_name")
-    private String lastName;
+    @ColumnInfo(name = "isbn")
+    private String isbn;
 
     public int getUid()
     {
@@ -27,24 +27,24 @@ public class Book
         this.uid = uid;
     }
 
-    public String getFirstName()
+    public String getTitle()
     {
-        return firstName;
+        return title;
     }
 
-    public void setFirstName(String firstName)
+    public void setTitle(String title)
     {
-        this.firstName = firstName;
+        this.title = title;
     }
 
-    public String getLastName()
+    public String getIsbn()
     {
-        return lastName;
+        return isbn;
     }
 
-    public void setLastName(String lastName)
+    public void setIsbn(String isbn)
     {
-        this.lastName = lastName;
+        this.isbn = isbn;
     }
 // Getters and setters are ignored for brevity,
     // but they're required for Room to work.
