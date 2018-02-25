@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.arch.persistence.room.Room;
 
 import java.util.Random;
 
@@ -25,8 +24,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         // connect the database variable to the database instance
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class,
-                "database-name").build();
+        db = AppDatabase.getAppDatabase(this);
 
         // add testing data to database
         buildBasicBookData(5);
@@ -82,9 +80,10 @@ public class MainActivity extends AppCompatActivity
         Book b = new Book();
         for(int i=0;i<count;i++)
         {
+            b.setUid(i);
             b.setIsbn("Tale of "+Integer.toString(i)+" cities");
             b.setTitle(Integer.toString(i));
-            db.userDao().insertAll(b);
+            db.bookDao().insertAll(b);
         }
     }
     private Book getRandomBook()
@@ -92,6 +91,6 @@ public class MainActivity extends AppCompatActivity
         // get a random int from 0 to 5
         int i = new Random().nextInt(5);
         // return a Book that responds to that "isbn"
-        return db.userDao().findByIsbn(Integer.toString(i));
+        return db.bookDao().findByIsbn(Integer.toString(i));
     }
 }
