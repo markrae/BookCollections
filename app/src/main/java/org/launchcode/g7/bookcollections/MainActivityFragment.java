@@ -11,7 +11,9 @@ import android.view.ViewGroup;
  */
 public class MainActivityFragment extends Fragment
 {
-
+    /**
+     * Constructor
+     */
     public MainActivityFragment()
     {
     }
