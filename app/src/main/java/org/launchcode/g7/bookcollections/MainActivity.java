@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.arch.persistence.room.Room;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity
 {
     AppDatabase db;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, getRandomBook().getTitle(), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 // TODO add new collection context behavior
                 // if collections
@@ -84,5 +86,12 @@ public class MainActivity extends AppCompatActivity
             b.setTitle(Integer.toString(i));
             db.userDao().insertAll(b);
         }
+    }
+    private Book getRandomBook()
+    {
+        // get a random int from 0 to 5
+        int i = new Random().nextInt(5);
+        // return a Book that responds to that "isbn"
+        return db.userDao().findByIsbn(Integer.toString(i));
     }
 }
