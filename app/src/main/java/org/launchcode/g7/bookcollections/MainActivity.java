@@ -8,9 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.arch.persistence.room.Room;
 
 public class MainActivity extends AppCompatActivity
 {
+    AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -19,6 +21,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // connect the database variable to the database instance
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class,
+                "database-name").build();
+
+        // add testing data to database
+        buildBasicBookData(5);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
@@ -66,5 +75,14 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
+    private void buildBasicBookData(int count)
+    {
+        Book b = new Book();
+        for(int i=0;i<count;i++)
+        {
+            b.setIsbn("Tale of "+Integer.toString(i)+" cities");
+            b.setTitle(Integer.toString(i));
+            db.userDao().insertAll(b);
+        }
+    }
 }
