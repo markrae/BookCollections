@@ -28,6 +28,13 @@ public class MainActivity extends AppCompatActivity
             {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                // TODO add new collection context behavior
+                // if collections
+                // open new collection dialog
+
+                // TODO add new book context behavior
+                // if inside collections,
+                // open new book dialog
             }
         });
     }
