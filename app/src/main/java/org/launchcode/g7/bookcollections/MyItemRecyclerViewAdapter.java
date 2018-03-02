@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.launchcode.g7.bookcollections.ItemFragment.OnListFragmentInteractionListener;
+import org.launchcode.g7.bookcollections.ItemListFragment.OnListFragmentInteractionListener;
 import org.launchcode.g7.bookcollections.dummy.DummyContent.DummyItem;
 
 import java.util.List;
