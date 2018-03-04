@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity
+import org.launchcode.g7.bookcollections.dummy.DummyContent;
+
+public class MainActivity extends AppCompatActivity implements ItemListFragment.OnListFragmentInteractionListener
 {
 
     @Override
@@ -62,5 +64,11 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item)
+    {
+
     }
 }
