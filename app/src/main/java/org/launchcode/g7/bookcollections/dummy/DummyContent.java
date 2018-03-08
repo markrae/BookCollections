@@ -43,7 +43,7 @@ public class DummyContent
 
     private static DummyItem createDummyItem(int position)
     {
-        return new DummyItem(String.valueOf(position), "Item " + position, makeDetails(position));
+        return new DummyItem(String.valueOf(position+123456000), "Book " + position, makeDetails(position));
     }
 
     private static String makeDetails(int position)
