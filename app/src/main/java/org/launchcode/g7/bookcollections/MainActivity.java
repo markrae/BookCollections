@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.launchcode.g7.bookcollections.dummy.DummyContent;
+import org.launchcode.g7.bookcollections.models.Book;
 
 public class MainActivity extends AppCompatActivity implements ItemListFragment.OnListFragmentInteractionListener
 {
@@ -37,6 +38,12 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                 // TODO add new book context behavior
                 // if inside collections,
                 // open new book dialog
+
+                // test saver
+                Saver saver = new Saver(getApplicationContext());
+                saver.saveBook(new Book("9780702028274","Ferret Husbandry, Medicine and Surgery"));
+                saver.saveCollectionXML();
+
             }
         });
     }

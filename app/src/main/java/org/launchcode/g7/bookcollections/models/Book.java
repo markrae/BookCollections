@@ -1,6 +1,8 @@
 package org.launchcode.g7.bookcollections.models;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable{
     private String title;
     private final String isbn;
 
