@@ -9,16 +9,17 @@ import org.xmlpull.v1.XmlSerializer;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collection;
 
 /**
  *
  */
 
-class Saver
+class BookReadWrite
 {
     private Context context;
 
-    Saver(Context context)
+    BookReadWrite(Context context)
     {
         this.context=context;
     }
@@ -79,11 +80,11 @@ class Saver
 
         try
         {
-            fos = context.openFileOutput(filename, Context.MODE_APPEND);
+            fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
 
             XmlSerializer serializer = Xml.newSerializer();
             serializer.setOutput(fos, "UTF-8");
-            serializer.startDocument(null, Boolean.valueOf(true));
+            serializer.startDocument(null, true);
             serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
 
             serializer.startTag(null, "root");
@@ -112,7 +113,7 @@ class Saver
 
     }
 
-    void saveCollection()
+    void saveCollection(Collection shelf)
     {
 
     }

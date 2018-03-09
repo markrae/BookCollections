@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                 // if inside collections,
                 // open new book dialog
 
-                // test saver
-                Saver saver = new Saver(getApplicationContext());
-                saver.saveBook(new Book("9780702028274","Ferret Husbandry, Medicine and Surgery"));
-                saver.saveCollectionXML();
+                // test bookReadWrite
+                BookReadWrite bookReadWrite = new BookReadWrite(getApplicationContext());
+                bookReadWrite.saveBook(new Book("9780702028274","Ferret Husbandry, Medicine and Surgery"));
+                bookReadWrite.saveCollectionXML();
 
             }
         });
