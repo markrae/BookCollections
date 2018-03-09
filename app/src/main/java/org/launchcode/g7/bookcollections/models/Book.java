@@ -7,7 +7,6 @@ public final class Book implements Serializable {
     private final String isbn;
 
     public Book (String isbn){
-        super();
         this.isbn = isbn;
     }
 

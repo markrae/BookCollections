@@ -19,17 +19,15 @@ public class DummyReadWrite {
 
     public static void createList(){
         for(int i=0; i<12; i++){
-            Book book = new Book("1234567890" + i, "new book" + i);
+            Book book = new Book("12345678900" + i, "new book" + i);
             addItem(book);
         }
     }
 
     public static void save(){
-        //Book myBook = new Book("8360238793", "The repeated");
 
-        // Serialization code
         try {
-            FileOutputStream fileOut = new FileOutputStream("userDetails.ser");
+            FileOutputStream fileOut = new FileOutputStream("Books");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(books);
             out.close();
@@ -42,7 +40,7 @@ public class DummyReadWrite {
     public static void read(){
         List<Book> deserializedBooks;
         try {
-            FileInputStream fileIn = new FileInputStream("userDetails.ser");
+            FileInputStream fileIn = new FileInputStream("Books");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             deserializedBooks = (List<Book>) in.readObject();
             in.close();
@@ -50,7 +48,6 @@ public class DummyReadWrite {
 
             // verify the object state
             verify(deserializedBooks);
-
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -66,65 +63,10 @@ public class DummyReadWrite {
         }
     }
 
-
-    public static void main(String[] args) {
-        createList();
-        save();
-        read();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        // Create new UserDetails object
-//        Book myBook = new Book("8360238793", "The repeated");
-//
-//        // Serialization code
-//        try {
-//            FileOutputStream fileOut = new FileOutputStream("userDetails.ser");
-//            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-//            out.writeObject(myBook);
-//            out.close();
-//            fileOut.close();
-//        } catch (IOException i) {
-//            i.printStackTrace();
-//        }
-//
-//        // De-serialization code
-//        //@SuppressWarnings("unused")
-//        Book deserializedBook;
-//        try {
-//            FileInputStream fileIn = new FileInputStream("userDetails.ser");
-//            ObjectInputStream in = new ObjectInputStream(fileIn);
-//            deserializedBook = (Book) in.readObject();
-//            in.close();
-//            fileIn.close();
-//
-//            // verify the object state
-//            System.out.println(deserializedBook.getIsbn());
-//            System.out.println(deserializedBook.getTitle());
-//
-//        } catch (IOException ioe) {
-//            ioe.printStackTrace();
-//        } catch (ClassNotFoundException cnfe) {
-//            cnfe.printStackTrace();
-//        }
-    }
-
-
+//    public static void main(String[] args) {
+//        createList();
+//        save();
+//        read();
+//    }
 
 }
