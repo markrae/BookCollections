@@ -16,9 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Object that handles saving and reading the List of Shelves from the file.
  */
-
 class BookReadWrite
 {
     private Context context;
@@ -29,99 +28,9 @@ class BookReadWrite
     }
 
     /**
-     * This method contains template code from the Android documentation. It's not really meant to
-     * be anything but an example and model for other methods.
-     * @deprecated
-     */
-    void saveText()
-    {
-        String filename = context.getString(R.string.filename);
-        String fileContents = "Hello world!";
-        FileOutputStream outputStream;
-
-        try
-        {
-            outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.write(fileContents.getBytes());
-            outputStream.close();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    void saveBook(Book book)
-    {
-        String filename = context.getString(R.string.filename);
-        FileOutputStream outputStream;
-        ObjectOutputStream objStream;
-
-        try
-        {
-            //initialize fileoutput
-            outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-
-            // initialize ObjectOutputStream
-            objStream = new ObjectOutputStream(outputStream);
-
-            // write book object
-            objStream.writeObject(book);
-
-            //TODO remove logs in final version
-            Log.d("MMMM",context.getFileStreamPath(filename).getCanonicalPath());
-
-            outputStream.close();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    void saveShelfXML()
-    {
-        String filename = context.getString(R.string.filename);
-
-        FileOutputStream fos;
-
-        try
-        {
-            fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
-
-            XmlSerializer serializer = Xml.newSerializer();
-            serializer.setOutput(fos, "UTF-8");
-            serializer.startDocument(null, true);
-            serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
-
-            serializer.startTag(null, "root");
-
-            for (int j = 0; j < 3; j++)
-            {
-
-                serializer.startTag(null, "record");
-
-                serializer.text(Integer.toString(j));
-
-                serializer.endTag(null, "record");
-            }
-            serializer.endDocument();
-
-            serializer.flush();
-            //TODO remove logs in final version
-            Log.d("MMMM",context.getFileStreamPath(filename).getCanonicalPath());
-
-            fos.close();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
-    /**
      * Saves one file of all Shelves containing all saved books.
      *
-     * @param allShelves a list containing all the book containers.
+     * @param allShelves a list containing all the book shelves.
      */
     void saveShelves(List<Shelf> allShelves)
     {
@@ -142,7 +51,7 @@ class BookReadWrite
     }
 
     /**
-     * Deserializes all Shelves from file into Objects
+     * Deserializes all Shelves from file into Objects.
      *
      * @return Warning: may return null if unable to access file.
      */
@@ -182,5 +91,107 @@ class BookReadWrite
         }
 
         return deserializedShelf;
+    }
+
+    /**
+     * This method contains template code from the Android documentation. It's not really meant to
+     * be anything but an example and model for other methods.
+     *
+     * @deprecated
+     */
+    void saveText()
+    {
+        String filename = context.getString(R.string.filename);
+        String fileContents = "Hello world!";
+        FileOutputStream outputStream;
+
+        try
+        {
+            outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(fileContents.getBytes());
+            outputStream.close();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Stores a single book in the file and was previously used for testing.
+     *
+     * @deprecated
+     * @param book
+     */
+    void saveBook(Book book)
+    {
+        String filename = context.getString(R.string.filename);
+        FileOutputStream outputStream;
+        ObjectOutputStream objStream;
+
+        try
+        {
+            //initialize fileoutput
+            outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+
+            // initialize ObjectOutputStream
+            objStream = new ObjectOutputStream(outputStream);
+
+            // write book object
+            objStream.writeObject(book);
+
+            //TODO remove logs in final version
+            Log.d("MMMM",context.getFileStreamPath(filename).getCanonicalPath());
+
+            outputStream.close();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Example method for saving XML data in case we decide to transition to this later.
+     *
+     * @deprecated
+     */
+    void saveShelfXML()
+    {
+        String filename = context.getString(R.string.filename);
+
+        FileOutputStream fos;
+
+        try
+        {
+            fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
+
+            XmlSerializer serializer = Xml.newSerializer();
+            serializer.setOutput(fos, "UTF-8");
+            serializer.startDocument(null, true);
+            serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+
+            serializer.startTag(null, "root");
+
+            for (int j = 0; j < 3; j++)
+            {
+
+                serializer.startTag(null, "record");
+
+                serializer.text(Integer.toString(j));
+
+                serializer.endTag(null, "record");
+            }
+            serializer.endDocument();
+
+            serializer.flush();
+            //TODO remove logs in final version
+            Log.d("MMMM",context.getFileStreamPath(filename).getCanonicalPath());
+
+            fos.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
 }
