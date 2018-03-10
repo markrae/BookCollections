@@ -5,11 +5,15 @@ import android.util.Log;
 import android.util.Xml;
 
 import org.launchcode.g7.bookcollections.models.Book;
+import org.launchcode.g7.bookcollections.models.Shelf;
 import org.xmlpull.v1.XmlSerializer;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -21,16 +25,17 @@ class BookReadWrite
 
     BookReadWrite(Context context)
     {
-        this.context=context;
+        this.context = context;
     }
 
     /**
      * This method contains template code from the Android documentation. It's not really meant to
      * be anything but an example and model for other methods.
+     * @deprecated
      */
     void saveText()
     {
-        String filename = "myfile";
+        String filename = context.getString(R.string.filename);
         String fileContents = "Hello world!";
         FileOutputStream outputStream;
 
@@ -47,7 +52,7 @@ class BookReadWrite
 
     void saveBook(Book book)
     {
-        String filename = "BookFile";
+        String filename = context.getString(R.string.filename);
         FileOutputStream outputStream;
         ObjectOutputStream objStream;
 
@@ -62,7 +67,7 @@ class BookReadWrite
             // write book object
             objStream.writeObject(book);
 
-            //TODO remove logs
+            //TODO remove logs in final version
             Log.d("MMMM",context.getFileStreamPath(filename).getCanonicalPath());
 
             outputStream.close();
@@ -72,9 +77,9 @@ class BookReadWrite
         }
     }
 
-    void saveCollectionXML()
+    void saveShelfXML()
     {
-        String filename = "Collections.xml";
+        String filename = context.getString(R.string.filename);
 
         FileOutputStream fos;
 
@@ -101,7 +106,7 @@ class BookReadWrite
             serializer.endDocument();
 
             serializer.flush();
-
+            //TODO remove logs in final version
             Log.d("MMMM",context.getFileStreamPath(filename).getCanonicalPath());
 
             fos.close();
@@ -113,8 +118,69 @@ class BookReadWrite
 
     }
 
-    void saveCollection(Collection shelf)
+    /**
+     * Saves one file of all Shelves containing all saved books.
+     *
+     * @param allShelves a list containing all the book containers.
+     */
+    void saveShelves(List<Shelf> allShelves)
     {
+        try
+        {
+            FileOutputStream fileOut = context.openFileOutput(context.getString(R.string.filename),Context.MODE_PRIVATE);
+            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
 
+            objOut.writeObject(allShelves);
+
+            objOut.close();
+            fileOut.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Deserializes all Shelves from file into Objects
+     *
+     * @return Warning: may return null if unable to access file.
+     */
+    List<Shelf> readShelves()
+    {
+        List<Shelf> deserializedShelf = null;
+
+        try
+        {
+            FileInputStream fileIn = context.openFileInput(context.getString(R.string.filename));
+            ObjectInputStream objIn = new ObjectInputStream(fileIn);
+
+            deserializedShelf = (ArrayList<Shelf>) objIn.readObject();
+
+            objIn.close();
+            fileIn.close();
+
+            // if deserializedShelf is null, then log and throw an Exception
+            if (deserializedShelf==null)
+            {
+                //TODO remove logs in final version
+                Log.d("BRWtest", "Didn't read a file");
+
+                throw new Exception("Failed to read shelves.");
+            }
+            // Otherwise, output the name of the first Shelf to the log
+            else
+            {
+
+                //TODO remove logs in final version
+                Log.d("BRWtest", deserializedShelf.get(0).getName());
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return deserializedShelf;
     }
 }
