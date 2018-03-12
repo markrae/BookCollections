@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.launchcode.g7.bookcollections.dummy.DummyContent;
 import org.launchcode.g7.bookcollections.models.Book;
 import org.launchcode.g7.bookcollections.models.Shelf;
 
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item)
+    public void onListFragmentInteraction(Shelf item)
     {
 
     }
