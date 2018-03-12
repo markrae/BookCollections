@@ -1,6 +1,8 @@
 package org.launchcode.g7.bookcollections.models;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable{
     private String title;
     private final String isbn;
 
@@ -9,7 +11,7 @@ public class Book {
     }
 
     public Book (String isbn, String title){
-        this.isbn = isbn;
+        this(isbn);
         this.title = title;
     }
 
