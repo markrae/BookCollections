@@ -19,7 +19,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ItemListFragment.OnListFragmentInteractionListener
 {
-    protected List<Shelf> masterList = new ArrayList<>();
     private RecyclerView ARecyclerView;
 
     @Override
@@ -27,13 +26,13 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        initializeMasterList();
+
         ARecyclerView = findViewById(R.id.fragment);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -43,14 +42,19 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                         .setAction("Action", null).show();
                 // TODO add new Shelf context behavior
                 // if Shelf list
-                // open new Shelf dialog
-
+                if(inShelfView())
+                {
+                    // open new Shelf dialog
+                }
                 // TODO add new Book context behavior
                 // if inside a Shelf,
-                // open new Book dialog
+                else
+                {
+                    // open new Book dialog
+                }
 
                 // test bookReadWrite
-                testBookReadWrite();
+                // testBookReadWrite();
             }
         });
     }
@@ -87,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
 
 
         // if viewing the Shelf List
-        if(ARecyclerView.getAdapter() instanceof ShelfRecyclerViewAdapter)
+        if(inShelfView())
         {
             // then item is a Shelf, so cast it as such.
             Shelf selectedShelf = (Shelf) item;
@@ -101,15 +105,17 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
             // show book info?
     }
 
-    private void initializeMasterList()
+    /**
+     * Use when you need to test if MainActivity is currently in Shelf or Book viewing mode. While
+     * methods inside the MainActivty class don't really need this, it may be useful in case other
+     * classes need to test what mode MainActivity is in.
+     *
+     * @return true if currently viewing shelves. false if in book view.
+     */
+    boolean inShelfView()
     {
-        // create an instance of BookReadWrite
-        BookReadWrite brw = new BookReadWrite(getApplicationContext());
-
-        // Read the list into the masterList
-        masterList = brw.readShelves();
+        return ARecyclerView.getAdapter() instanceof ShelfRecyclerViewAdapter;
     }
-
 
     /**
      * This method constructs a set of Book objects for testing. Note that the ISBNs and titles are
@@ -134,6 +140,11 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
         return shelf;
     }
 
+    /**
+     * Fabricates a Shelf List for testing purposes.
+     *
+     * @return a List containing 3 Shelf elements with 3 Books each.
+     */
     public static List<Shelf> buildTestList()
     {
         // build a list of 3 shelves
