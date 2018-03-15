@@ -10,9 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.launchcode.g7.bookcollections.dummy.DummyContent;
-import org.launchcode.g7.bookcollections.dummy.DummyContent.DummyItem;
-
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -68,6 +65,8 @@ public class ItemListFragment extends Fragment
         if (view instanceof RecyclerView)
         {
             Context context = view.getContext();
+            /* create a RecyclerView pointer to view so that we can call RecyclerView methods that
+             * will affect view.*/
             RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1)
             {
@@ -76,7 +75,9 @@ public class ItemListFragment extends Fragment
             {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            // get an instance of BookReadWrite, then create and set an adapter that reads shelves.
+            BookReadWrite brw = new BookReadWrite(context);
+            recyclerView.setAdapter(new ShelfRecyclerViewAdapter(brw.readShelves(), mListener));
         }
         return view;
     }
@@ -116,6 +117,6 @@ public class ItemListFragment extends Fragment
     public interface OnListFragmentInteractionListener
     {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Object item);
     }
 }

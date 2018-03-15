@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.launchcode.g7.bookcollections.dummy.DummyContent;
 import org.launchcode.g7.bookcollections.models.Book;
 import org.launchcode.g7.bookcollections.models.Shelf;
 
@@ -19,16 +19,20 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ItemListFragment.OnListFragmentInteractionListener
 {
+    private RecyclerView ARecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        ARecyclerView = findViewById(R.id.fragment);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -36,16 +40,21 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
             {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                // TODO add new collection context behavior
-                // if collections
-                // open new collection dialog
-
-                // TODO add new book context behavior
-                // if inside collections,
-                // open new book dialog
+                // TODO add new Shelf context behavior
+                // if Shelf list
+                if(inShelfView())
+                {
+                    // open new Shelf dialog
+                }
+                // TODO add new Book context behavior
+                // if inside a Shelf,
+                else
+                {
+                    // open new Book dialog
+                }
 
                 // test bookReadWrite
-                testBookReadWrite();
+                // testBookReadWrite();
             }
         });
     }
@@ -76,9 +85,36 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item)
+    public void onListFragmentInteraction(Object item)
     {
+        // get a pointer to the recyclerView
 
+
+        // if viewing the Shelf List
+        if(inShelfView())
+        {
+            // then item is a Shelf, so cast it as such.
+            Shelf selectedShelf = (Shelf) item;
+            // swap adapter to BookAdapter
+            ARecyclerView.setAdapter(
+                    new BookRecyclerViewAdapter(
+                            selectedShelf.getAllBooks(),
+                            this));
+        }
+        // if viewing a Book list (i.e. inside a Shelf)
+            // show book info?
+    }
+
+    /**
+     * Use when you need to test if MainActivity is currently in Shelf or Book viewing mode. While
+     * methods inside the MainActivty class don't really need this, it may be useful in case other
+     * classes need to test what mode MainActivity is in.
+     *
+     * @return true if currently viewing shelves. false if in book view.
+     */
+    boolean inShelfView()
+    {
+        return ARecyclerView.getAdapter() instanceof ShelfRecyclerViewAdapter;
     }
 
     /**
@@ -87,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
      *
      * @return Shelf of Books
      */
-    private Shelf buildTestShelf()
+    private static Shelf buildTestShelf()
     {
         // create new shelf - name it test+TimeStamp
         Shelf shelf = new Shelf("test"+Long.toString(System.currentTimeMillis()));
@@ -105,6 +141,20 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
     }
 
     /**
+     * Fabricates a Shelf List for testing purposes.
+     *
+     * @return a List containing 3 Shelf elements with 3 Books each.
+     */
+    public static List<Shelf> buildTestList()
+    {
+        // build a list of 3 shelves
+        List<Shelf> testList = new ArrayList<>();
+        for(int i=1;i<=3;i++)
+            testList.add(buildTestShelf());
+        return testList;
+    }
+
+    /**
      * Testing method for verifying that the BookReadWrite behaviors are working properly in the
      * actual working context of our Activity.
      */
@@ -117,11 +167,18 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
         for(int i=1;i<=3;i++)
             testSavingList.add(buildTestShelf());
 
+        // read any existing shelves
+        List<Shelf> testReadingList = bookReadWrite.readShelves();
+
+        // if shelves were already saved, add the lists. otherwise don't.
+        if(testReadingList.get(1) != null)
+            testSavingList.addAll(testReadingList);
+
         // save shelves
         bookReadWrite.saveShelves(testSavingList);
 
         // read shelves
-        List<Shelf> testReadingList = bookReadWrite.readShelves();
+        testReadingList = bookReadWrite.readShelves();
 
         if (testReadingList == null)
         {
@@ -133,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
             // output reading list's first Shelf name to log
             //TODO remove logs in final version
             Log.d("MainActTests",testReadingList.get(0).getName());
+            Log.d("MainActTests",Integer.toString(testReadingList.size()));
         }
     }
 }
