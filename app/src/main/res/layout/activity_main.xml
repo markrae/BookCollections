@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     tools:context="org.launchcode.g7.bookcollections.MainActivity">
 
+
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,6 +24,11 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main"/>
+
+    <include
+        layout="@layout/placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
