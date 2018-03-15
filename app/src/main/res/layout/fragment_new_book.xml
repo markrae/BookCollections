@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/bookISBN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -15,7 +15,7 @@
         android:inputType="number" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/addBook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Place Book on Shelf" />
