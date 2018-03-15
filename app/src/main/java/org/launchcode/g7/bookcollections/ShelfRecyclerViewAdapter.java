@@ -7,22 +7,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.launchcode.g7.bookcollections.ItemListFragment.OnListFragmentInteractionListener;
-import org.launchcode.g7.bookcollections.dummy.DummyContent.DummyItem;
+import org.launchcode.g7.bookcollections.models.Shelf;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Shelf} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>
+public class ShelfRecyclerViewAdapter extends RecyclerView.Adapter<ShelfRecyclerViewAdapter.ViewHolder>
 {
 
-    private final List<DummyItem> mValues;
+    private final List<Shelf> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener)
+    public ShelfRecyclerViewAdapter(List<Shelf> items, OnListFragmentInteractionListener listener)
     {
         mValues = items;
         mListener = listener;
@@ -40,8 +40,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText(mValues.get(position).getName());
+        holder.mContentView.setText(mValues.get(position).getName());
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
@@ -66,12 +66,12 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        final View mView;
+        final TextView mIdView;
+        final TextView mContentView;
+        Shelf mItem;
 
-        public ViewHolder(View view)
+        ViewHolder(View view)
         {
             super(view);
             mView = view;

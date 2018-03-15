@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Book implements Serializable{
     private String title;
     private final String isbn;
+    static final long serialVersionUID = 451;
 
     public Book (String isbn){
         this.isbn = isbn;
