@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ItemListFragment.OnListFragmentInteractionListener
 {
+    protected List<Shelf> masterList = new ArrayList<>();
+    private RecyclerView ARecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        initializeMasterList();
+        ARecyclerView = findViewById(R.id.fragment);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
         {
@@ -35,13 +41,13 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
             {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                // TODO add new collection context behavior
-                // if collections
-                // open new collection dialog
+                // TODO add new Shelf context behavior
+                // if Shelf list
+                // open new Shelf dialog
 
-                // TODO add new book context behavior
-                // if inside collections,
-                // open new book dialog
+                // TODO add new Book context behavior
+                // if inside a Shelf,
+                // open new Book dialog
 
                 // test bookReadWrite
                 testBookReadWrite();
@@ -75,10 +81,36 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
     }
 
     @Override
-    public void onListFragmentInteraction(Shelf item)
+    public void onListFragmentInteraction(Object item)
     {
+        // get a pointer to the recyclerView
 
+
+        // if viewing the Shelf List
+        if(ARecyclerView.getAdapter() instanceof MyItemRecyclerViewAdapter)
+        {
+            // then item is a Shelf, so cast it as such.
+            Shelf selectedShelf = (Shelf) item;
+            // swap adapter to BookAdapter
+            ARecyclerView.swapAdapter(
+                    new BookRecyclerViewAdapter(
+                            selectedShelf.getAllBooks(),
+                            this)
+                    ,true);
+        }
+        // if viewing a Book list (i.e. inside a Shelf)
+            // show book info?
     }
+
+    private void initializeMasterList()
+    {
+        // create an instance of BookReadWrite
+        BookReadWrite brw = new BookReadWrite(getApplicationContext());
+
+        // Read the list into the masterList
+        masterList = brw.readShelves();
+    }
+
 
     /**
      * This method constructs a set of Book objects for testing. Note that the ISBNs and titles are
@@ -86,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
      *
      * @return Shelf of Books
      */
-    private Shelf buildTestShelf()
+    private static Shelf buildTestShelf()
     {
         // create new shelf - name it test+TimeStamp
         Shelf shelf = new Shelf("test"+Long.toString(System.currentTimeMillis()));
@@ -101,6 +133,15 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
 
         // return books in shelf
         return shelf;
+    }
+
+    public static List<Shelf> buildTestList()
+    {
+        // build a list of 3 shelves
+        List<Shelf> testList = new ArrayList<>();
+        for(int i=1;i<=3;i++)
+            testList.add(buildTestShelf());
+        return testList;
     }
 
     /**

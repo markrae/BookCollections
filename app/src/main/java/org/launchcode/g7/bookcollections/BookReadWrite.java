@@ -69,13 +69,20 @@ class BookReadWrite
             objIn.close();
             fileIn.close();
 
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
             // if deserializedShelf is null, then log and throw an Exception
             if (deserializedShelf==null)
             {
                 //TODO remove logs in final version
-                Log.d("BRWtest", "Didn't read a file");
-
-                throw new Exception("Failed to read shelves.");
+                Log.d("BRWtest", "Didn't read a file. Returning test data.");
+                deserializedShelf = MainActivity.buildTestList();
             }
             // Otherwise, output the name of the first Shelf to the log
             else
@@ -85,11 +92,6 @@ class BookReadWrite
                 Log.d("BRWtest", deserializedShelf.get(0).getName());
             }
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
         return deserializedShelf;
     }
 

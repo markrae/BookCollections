@@ -12,6 +12,7 @@ public class Shelf implements Serializable
 {
     private List<Book> shelf;
     private String name;
+    static final long serialVersionUID = 42;
 
     /**
      * Creates a new container for books.
@@ -37,5 +38,9 @@ public class Shelf implements Serializable
     public String getName()
     {
         return this.name;
+    }
+    public List<Book> getAllBooks()
+    {
+        return shelf;
     }
 }
