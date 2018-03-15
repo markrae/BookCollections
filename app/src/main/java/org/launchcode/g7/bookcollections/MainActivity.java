@@ -87,16 +87,15 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
 
 
         // if viewing the Shelf List
-        if(ARecyclerView.getAdapter() instanceof MyItemRecyclerViewAdapter)
+        if(ARecyclerView.getAdapter() instanceof ShelfRecyclerViewAdapter)
         {
             // then item is a Shelf, so cast it as such.
             Shelf selectedShelf = (Shelf) item;
             // swap adapter to BookAdapter
-            ARecyclerView.swapAdapter(
+            ARecyclerView.setAdapter(
                     new BookRecyclerViewAdapter(
                             selectedShelf.getAllBooks(),
-                            this)
-                    ,true);
+                            this));
         }
         // if viewing a Book list (i.e. inside a Shelf)
             // show book info?

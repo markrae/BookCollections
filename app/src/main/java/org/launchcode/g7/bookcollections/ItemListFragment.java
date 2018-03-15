@@ -77,7 +77,7 @@ public class ItemListFragment extends Fragment
             }
             // get an instance of BookReadWrite, then create and set an adapter that reads shelves.
             BookReadWrite brw = new BookReadWrite(context);
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(brw.readShelves(), mListener));
+            recyclerView.setAdapter(new ShelfRecyclerViewAdapter(brw.readShelves(), mListener));
         }
         return view;
     }
