@@ -51,7 +51,11 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                     FragmentTransaction transaction = manager.beginTransaction();
                     transaction.replace(R.id.placeholder, shelfFragment);
                     transaction.commit();
-                }else if (count == 2){
+                }
+                // TODO add new book context behavior
+                // if inside collections,
+                // open new book dialog
+                else if (count == 2){
                     count--;
                     NewBookFragment bookFragment = new NewBookFragment();
                     FragmentManager manager = getSupportFragmentManager();
@@ -59,13 +63,10 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                     transaction.replace(R.id.placeholder, bookFragment);
                     transaction.commit();
                 }
-
-                // TODO add new book context behavior
-                // if inside collections,
-                // open new book dialog
-
                 // test bookReadWrite
                 //testBookReadWrite();
+
+
             }
         });
     }
