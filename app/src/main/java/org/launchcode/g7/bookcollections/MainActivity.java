@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
         {
+            public int count = 1;
+
             @Override
             public void onClick(View view)
             {
@@ -42,11 +44,21 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                 // TODO add new collection context behavior
                 // if collections
                 // open new collection dialog
-                NewShelfFragment shelfFragment = new NewShelfFragment();
-                FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.add(R.id.placeholder, shelfFragment);
-                transaction.commit();
+                if (count == 1){
+                    count++;
+                    NewShelfFragment shelfFragment = new NewShelfFragment();
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.replace(R.id.placeholder, shelfFragment);
+                    transaction.commit();
+                }else if (count == 2){
+                    count--;
+                    NewBookFragment bookFragment = new NewBookFragment();
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.replace(R.id.placeholder, bookFragment);
+                    transaction.commit();
+                }
 
                 // TODO add new book context behavior
                 // if inside collections,
