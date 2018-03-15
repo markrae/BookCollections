@@ -35,13 +35,13 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
             {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                // TODO add new collection context behavior
-                // if collections
-                // open new collection dialog
+                // TODO add new Shelf context behavior
+                // if Shelf list
+                // open new Shelf dialog
 
-                // TODO add new book context behavior
-                // if inside collections,
-                // open new book dialog
+                // TODO add new Book context behavior
+                // if inside a Shelf,
+                // open new Book dialog
 
                 // test bookReadWrite
                 testBookReadWrite();
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
      *
      * @return Shelf of Books
      */
-    private Shelf buildTestShelf()
+    private static Shelf buildTestShelf()
     {
         // create new shelf - name it test+TimeStamp
         Shelf shelf = new Shelf("test"+Long.toString(System.currentTimeMillis()));
@@ -101,6 +101,15 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
 
         // return books in shelf
         return shelf;
+    }
+
+    public static List<Shelf> buildTestList()
+    {
+        // build a list of 3 shelves
+        List<Shelf> testList = new ArrayList<>();
+        for(int i=1;i<=3;i++)
+            testList.add(buildTestShelf());
+        return testList;
     }
 
     /**
