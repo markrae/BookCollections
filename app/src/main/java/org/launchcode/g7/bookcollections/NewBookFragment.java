@@ -2,14 +2,14 @@ package org.launchcode.g7.bookcollections;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class NewBookFragment extends Fragment{
+public class NewBookFragment extends DialogFragment {
     private Button addBook;
     private EditText editText;
     private String ISBN;

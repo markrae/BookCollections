@@ -2,15 +2,12 @@ package org.launchcode.g7.bookcollections;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.launchcode.g7.bookcollections.dummy.DummyContent;
 import org.launchcode.g7.bookcollections.models.Book;
@@ -48,10 +45,6 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                     count++;
                     NewShelfFragment shelfFragment = new NewShelfFragment();
                     shelfFragment.show(getSupportFragmentManager(),"newshelfdialog");
-                    //FragmentManager manager = getSupportFragmentManager();
-                    //FragmentTransaction transaction = manager.beginTransaction();
-                    //transaction.replace(R.id.placeholder, shelfFragment);
-                    //transaction.commit();
                 }
                 // TODO add new book context behavior
                 // if inside collections,
@@ -59,10 +52,7 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                 else if (count == 2){
                     count--;
                     NewBookFragment bookFragment = new NewBookFragment();
-                    FragmentManager manager = getSupportFragmentManager();
-                    FragmentTransaction transaction = manager.beginTransaction();
-                    transaction.replace(R.id.placeholder, bookFragment);
-                    transaction.commit();
+                    bookFragment.show(getSupportFragmentManager(), "newbookdialog");
                 }
                 // test bookReadWrite
                 //testBookReadWrite();
