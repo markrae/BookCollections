@@ -10,6 +10,7 @@ import org.xmlpull.v1.XmlSerializer;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -71,13 +72,19 @@ class BookReadWrite
 
 
         }
+        catch (InvalidClassException ice)
+        {
+            // This exception occurs upon a deserialization that has mismatched serialVersionUIDs
+            // In such an event, the old data is lost basically. Return fresh data.
+            deserializedShelf = MainActivity.buildTestList();
+        }
         catch (Exception e)
         {
             e.printStackTrace();
         }
         finally
         {
-            // if deserializedShelf is null, then log and throw an Exception
+            // if deserializedShelf is null, then log and return valid data anyway.
             if (deserializedShelf==null)
             {
                 //TODO remove logs in final version
@@ -122,7 +129,7 @@ class BookReadWrite
      * Stores a single book in the file and was previously used for testing.
      *
      * @deprecated
-     * @param book
+     * @param book Book object to be saved.
      */
     void saveBook(Book book)
     {
