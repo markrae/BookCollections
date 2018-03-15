@@ -116,11 +116,18 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
         for(int i=1;i<=3;i++)
             testSavingList.add(buildTestShelf());
 
+        // read any existing shelves
+        List<Shelf> testReadingList = bookReadWrite.readShelves();
+
+        // if shelves were already saved, add the lists. otherwise don't.
+        if(testReadingList.get(1) != null)
+            testSavingList.addAll(testReadingList);
+
         // save shelves
         bookReadWrite.saveShelves(testSavingList);
 
         // read shelves
-        List<Shelf> testReadingList = bookReadWrite.readShelves();
+        testReadingList = bookReadWrite.readShelves();
 
         if (testReadingList == null)
         {
@@ -132,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
             // output reading list's first Shelf name to log
             //TODO remove logs in final version
             Log.d("MainActTests",testReadingList.get(0).getName());
+            Log.d("MainActTests",Integer.toString(testReadingList.size()));
         }
     }
 }

@@ -7,13 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.launchcode.g7.bookcollections.ItemListFragment.OnListFragmentInteractionListener;
-import org.launchcode.g7.bookcollections.dummy.DummyContent.DummyItem;
 import org.launchcode.g7.bookcollections.models.Shelf;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Shelf} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
