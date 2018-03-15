@@ -47,10 +47,11 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                 if (count == 1){
                     count++;
                     NewShelfFragment shelfFragment = new NewShelfFragment();
-                    FragmentManager manager = getSupportFragmentManager();
-                    FragmentTransaction transaction = manager.beginTransaction();
-                    transaction.replace(R.id.placeholder, shelfFragment);
-                    transaction.commit();
+                    shelfFragment.show(getSupportFragmentManager(),"newshelfdialog");
+                    //FragmentManager manager = getSupportFragmentManager();
+                    //FragmentTransaction transaction = manager.beginTransaction();
+                    //transaction.replace(R.id.placeholder, shelfFragment);
+                    //transaction.commit();
                 }
                 // TODO add new book context behavior
                 // if inside collections,

@@ -2,6 +2,7 @@ package org.launchcode.g7.bookcollections;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,7 @@ import android.widget.EditText;
 
 import org.launchcode.g7.bookcollections.models.Shelf;
 
-public class NewShelfFragment extends Fragment {
+public class NewShelfFragment extends DialogFragment {
     private Button buildShelf;
     private EditText shelfEdit;
     private String shelfName;
