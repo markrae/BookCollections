@@ -2,14 +2,13 @@ package org.launchcode.g7.bookcollections;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.launchcode.g7.bookcollections.models.Book;
 import org.launchcode.g7.bookcollections.models.Shelf;
@@ -35,26 +34,29 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
         {
+
             @Override
             public void onClick(View view)
             {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                // TODO add new Shelf context behavior
-                // if Shelf list
-                if(inShelfView())
-                {
-                    // open new Shelf dialog
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                // TODO add new collection context behavior
+                // if collections
+                // open new collection dialog
+                if(inShelfView()){
+                    NewShelfFragment shelfFragment = new NewShelfFragment();
+                    shelfFragment.show(getSupportFragmentManager(),"newshelfdialog");
                 }
-                // TODO add new Book context behavior
-                // if inside a Shelf,
-                else
-                {
-                    // open new Book dialog
+                // TODO add new book context behavior
+                // if inside collections,
+                // open new book dialog
+                else{
+                    NewBookFragment bookFragment = new NewBookFragment();
+                    bookFragment.show(getSupportFragmentManager(), "newbookdialog");
                 }
 
                 // test bookReadWrite
-                // testBookReadWrite();
+                //testBookReadWrite();
             }
         });
     }
