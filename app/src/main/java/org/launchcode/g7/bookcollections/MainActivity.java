@@ -16,7 +16,9 @@ import org.launchcode.g7.bookcollections.models.Shelf;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ItemListFragment.OnListFragmentInteractionListener
+public class MainActivity extends AppCompatActivity implements
+        ItemListFragment.OnListFragmentInteractionListener,
+        NewShelfFragment.OnBuildShelfClickListener
 {
     private RecyclerView ARecyclerView;
 
@@ -43,14 +45,16 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                 // TODO add new collection context behavior
                 // if collections
                 // open new collection dialog
-                if(inShelfView()){
+                if (inShelfView())
+                {
                     NewShelfFragment shelfFragment = new NewShelfFragment();
-                    shelfFragment.show(getSupportFragmentManager(),"newshelfdialog");
+                    shelfFragment.show(getSupportFragmentManager(), "newshelfdialog");
                 }
                 // TODO add new book context behavior
                 // if inside collections,
                 // open new book dialog
-                else{
+                else
+                {
                     NewBookFragment bookFragment = new NewBookFragment();
                     bookFragment.show(getSupportFragmentManager(), "newbookdialog");
                 }
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
 
 
         // if viewing the Shelf List
-        if(inShelfView())
+        if (inShelfView())
         {
             // then item is a Shelf, so cast it as such.
             Shelf selectedShelf = (Shelf) item;
@@ -104,7 +108,34 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                             this));
         }
         // if viewing a Book list (i.e. inside a Shelf)
-            // show book info?
+        // show book info?
+    }
+
+    // Called when user enters a shelf name and clicks Build Shelf
+    @Override
+    public void onBuildShelfClick(Shelf newShelf)
+    {
+        // add the shelf to the file
+        addShelf(newShelf);
+    }
+
+    /**
+     * Adds one Shelf to the file.
+     * @param shelf new shelf to be appended to the file.
+     */
+    public void addShelf(Shelf shelf)
+    {
+        // get an instance of BookReadWrite
+        BookReadWrite bookReadWrite = new BookReadWrite(getApplicationContext());
+
+        // read any existing shelves
+        List<Shelf> shelvesInFile = bookReadWrite.readShelves();
+
+        // add new shelf to List of existing shelves
+        shelvesInFile.add(shelf);
+
+        // save shelves
+        bookReadWrite.saveShelves(shelvesInFile);
     }
 
     /**
