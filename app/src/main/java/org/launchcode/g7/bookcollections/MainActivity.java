@@ -18,9 +18,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements
         ItemListFragment.OnListFragmentInteractionListener,
-        NewShelfFragment.OnBuildShelfClickListener
+        NewShelfFragment.OnBuildShelfClickListener,
+        NewBookFragment.OnAddBookClickListener
 {
     private RecyclerView ARecyclerView;
+    private int selectedShelfIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onListFragmentInteraction(Object item)
+    public void onListFragmentInteraction(Object item,int position)
     {
         // get a pointer to the recyclerView
 
@@ -101,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements
         {
             // then item is a Shelf, so cast it as such.
             Shelf selectedShelf = (Shelf) item;
+            // store the item's position
+            selectedShelfIndex = position;
             // swap adapter to BookAdapter
             ARecyclerView.setAdapter(
                     new BookRecyclerViewAdapter(
@@ -123,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements
      * Adds one Shelf to the file.
      * @param shelf new shelf to be appended to the file.
      */
-    public void addShelf(Shelf shelf)
+    private void addShelf(Shelf shelf)
     {
         // get an instance of BookReadWrite
         BookReadWrite bookReadWrite = new BookReadWrite(getApplicationContext());
@@ -138,9 +142,41 @@ public class MainActivity extends AppCompatActivity implements
         bookReadWrite.saveShelves(shelvesInFile);
     }
 
+    @Override
+    public void onAddBookClick(Book newBook)
+    {
+        addBook(newBook);
+    }
+
+    /**
+     * Adds a book the the selectedShelf.
+     * @param book a Book object to be added to currently viewed Shelf
+     */
+    private void addBook(Book book)
+    {
+        // selectedShelf is a copy, I think, i.e. it isn't the saved version of the shelf.
+
+        // get an instance of BookReadWrite
+        BookReadWrite bookReadWrite = new BookReadWrite(getApplicationContext());
+
+        // read any existing shelves
+        List<Shelf> shelvesInFile = bookReadWrite.readShelves();
+
+        // get a pointer to the shelf that's in the file
+        Shelf shelfInFile = shelvesInFile.get(selectedShelfIndex);
+
+        // add the book to the shelf
+        shelfInFile.addBooks(book);
+
+        // save shelves
+        bookReadWrite.saveShelves(shelvesInFile);
+
+        // TODO Scrap this and make a BookReadWrite method for saving individual books to a shelf
+    }
+
     /**
      * Use when you need to test if MainActivity is currently in Shelf or Book viewing mode. While
-     * methods inside the MainActivty class don't really need this, it may be useful in case other
+     * methods inside the MainActivity class don't really need this, it may be useful in case other
      * classes need to test what mode MainActivity is in.
      *
      * @return true if currently viewing shelves. false if in book view.

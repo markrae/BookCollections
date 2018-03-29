@@ -37,7 +37,7 @@ public class ShelfRecyclerViewAdapter extends RecyclerView.Adapter<ShelfRecycler
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position)
+    public void onBindViewHolder(final ViewHolder holder, final int position)
     {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).getName());
@@ -52,7 +52,7 @@ public class ShelfRecyclerViewAdapter extends RecyclerView.Adapter<ShelfRecycler
                 {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(holder.mItem,holder.getAdapterPosition());
                 }
             }
         });

@@ -46,7 +46,7 @@ public class NewShelfFragment extends DialogFragment {
     {
         super.onAttach(context);
 
-        // Verify that the host context implements the onBuildShelfClickListener interface
+        // Verify that the host context implements the OnBuildShelfClickListener interface
         try {
             onBuildShelfClickListener = (OnBuildShelfClickListener) context;
         } catch (ClassCastException e) {
