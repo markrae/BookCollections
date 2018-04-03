@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    // called whenever a user taps on a shelf or book in its list.
     @Override
     public void onListFragmentInteraction(Object item,int position)
     {
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements
         {
             // then item is a Shelf, so cast it as such.
             Shelf selectedShelf = (Shelf) item;
-            // store the item's position
+            // store the item's position/index
             selectedShelfIndex = position;
             // swap adapter to BookAdapter
             ARecyclerView.setAdapter(
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements
         bookReadWrite.saveShelves(shelvesInFile);
     }
 
+    // called when user clicks to add a book to the shelf.
     @Override
     public void onAddBookClick(Book newBook)
     {
@@ -149,13 +151,12 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * Adds a book the the selectedShelf.
+     * Adds a book the the selectedShelf. Uses the selectedShelfIndex provided by
+     * onListFragmentInteraction parameters.
      * @param book a Book object to be added to currently viewed Shelf
      */
     private void addBook(Book book)
     {
-        // selectedShelf is a copy, I think, i.e. it isn't the saved version of the shelf.
-
         // get an instance of BookReadWrite
         BookReadWrite bookReadWrite = new BookReadWrite(getApplicationContext());
 
@@ -170,8 +171,6 @@ public class MainActivity extends AppCompatActivity implements
 
         // save shelves
         bookReadWrite.saveShelves(shelvesInFile);
-
-        // TODO Scrap this and make a BookReadWrite method for saving individual books to a shelf
     }
 
     /**
