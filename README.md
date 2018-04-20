@@ -1,5 +1,5 @@
 # BookCollections
-If struggle to keep track of your book collection, then this Android app can help. It allows users to create Shelves and organize their book collection on to them.
+If you struggle to keep track of your book collection, then this Android app can help. It allows users to create Shelves and organize their book collection on to them.
 
 # Download Release APKs
 Prototype releases can be downloaded [here](https://github.com/markrae/BookCollections/releases).
