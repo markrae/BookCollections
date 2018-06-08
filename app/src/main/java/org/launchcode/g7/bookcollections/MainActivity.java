@@ -16,9 +16,13 @@ import org.launchcode.g7.bookcollections.models.Shelf;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ItemListFragment.OnListFragmentInteractionListener
+public class MainActivity extends AppCompatActivity implements
+        ItemListFragment.OnListFragmentInteractionListener,
+        NewShelfFragment.OnBuildShelfClickListener,
+        NewBookFragment.OnAddBookClickListener
 {
     private RecyclerView ARecyclerView;
+    private int selectedShelfIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,14 +47,16 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                 // TODO add new collection context behavior
                 // if collections
                 // open new collection dialog
-                if(inShelfView()){
+                if (inShelfView())
+                {
                     NewShelfFragment shelfFragment = new NewShelfFragment();
-                    shelfFragment.show(getSupportFragmentManager(),"newshelfdialog");
+                    shelfFragment.show(getSupportFragmentManager(), "newshelfdialog");
                 }
                 // TODO add new book context behavior
                 // if inside collections,
                 // open new book dialog
-                else{
+                else
+                {
                     NewBookFragment bookFragment = new NewBookFragment();
                     bookFragment.show(getSupportFragmentManager(), "newbookdialog");
                 }
@@ -86,17 +92,20 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
         return super.onOptionsItemSelected(item);
     }
 
+    // called whenever a user taps on a shelf or book in its list.
     @Override
-    public void onListFragmentInteraction(Object item)
+    public void onListFragmentInteraction(Object item,int position)
     {
         // get a pointer to the recyclerView
 
 
         // if viewing the Shelf List
-        if(inShelfView())
+        if (inShelfView())
         {
             // then item is a Shelf, so cast it as such.
             Shelf selectedShelf = (Shelf) item;
+            // store the item's position/index
+            selectedShelfIndex = position;
             // swap adapter to BookAdapter
             ARecyclerView.setAdapter(
                     new BookRecyclerViewAdapter(
@@ -104,12 +113,69 @@ public class MainActivity extends AppCompatActivity implements ItemListFragment.
                             this));
         }
         // if viewing a Book list (i.e. inside a Shelf)
-            // show book info?
+        // show book info?
+    }
+
+    // Called when user enters a shelf name and clicks Build Shelf
+    @Override
+    public void onBuildShelfClick(Shelf newShelf)
+    {
+        // add the shelf to the file
+        addShelf(newShelf);
+    }
+
+    /**
+     * Adds one Shelf to the file.
+     * @param shelf new shelf to be appended to the file.
+     */
+    private void addShelf(Shelf shelf)
+    {
+        // get an instance of BookReadWrite
+        BookReadWrite bookReadWrite = new BookReadWrite(getApplicationContext());
+
+        // read any existing shelves
+        List<Shelf> shelvesInFile = bookReadWrite.readShelves();
+
+        // add new shelf to List of existing shelves
+        shelvesInFile.add(shelf);
+
+        // save shelves
+        bookReadWrite.saveShelves(shelvesInFile);
+    }
+
+    // called when user clicks to add a book to the shelf.
+    @Override
+    public void onAddBookClick(Book newBook)
+    {
+        addBook(newBook);
+    }
+
+    /**
+     * Adds a book the the selectedShelf. Uses the selectedShelfIndex provided by
+     * onListFragmentInteraction parameters.
+     * @param book a Book object to be added to currently viewed Shelf
+     */
+    private void addBook(Book book)
+    {
+        // get an instance of BookReadWrite
+        BookReadWrite bookReadWrite = new BookReadWrite(getApplicationContext());
+
+        // read any existing shelves
+        List<Shelf> shelvesInFile = bookReadWrite.readShelves();
+
+        // get a pointer to the shelf that's in the file
+        Shelf shelfInFile = shelvesInFile.get(selectedShelfIndex);
+
+        // add the book to the shelf
+        shelfInFile.addBooks(book);
+
+        // save shelves
+        bookReadWrite.saveShelves(shelvesInFile);
     }
 
     /**
      * Use when you need to test if MainActivity is currently in Shelf or Book viewing mode. While
-     * methods inside the MainActivty class don't really need this, it may be useful in case other
+     * methods inside the MainActivity class don't really need this, it may be useful in case other
      * classes need to test what mode MainActivity is in.
      *
      * @return true if currently viewing shelves. false if in book view.
